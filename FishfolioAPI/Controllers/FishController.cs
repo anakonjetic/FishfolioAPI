@@ -1,6 +1,7 @@
 ﻿using FishfolioAPI.DAL;
 using FishfolioAPI.Model;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace FishfolioAPI.Controllers
 {
@@ -225,7 +226,12 @@ namespace FishfolioAPI.Controllers
 
             this._dbContext.SaveChanges();
 
-            return Ok();
+            return new ContentResult
+            {
+                Content = this._dbContext.Fish.OrderByDescending(f => f.Id).First().Id.ToString(),
+                ContentType = "text/plain",
+                StatusCode = (int)HttpStatusCode.OK
+            };
         }
 
      
